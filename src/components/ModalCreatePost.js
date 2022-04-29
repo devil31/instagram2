@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Container, Col, Row, NavItem } from 'react-bootstrap';
-import { BsGeoAlt } from "react-icons/bs"; import '../Styles/ModalCreatePost.css'
+import { Modal, Container, Col, Row, } from 'react-bootstrap';
+import { BsGeoAlt } from "react-icons/bs";
+import '../Styles/ModalCreatePost.css'
 import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost } from '../store/actions/Post';

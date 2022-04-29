@@ -10,7 +10,7 @@ export const GET_USERDATA = 'GET_USERDATA';
 
 
 
-const key = 'AIzaSyC_cqI-a_-HO2tOPZ6uCAy-YFYDEMbqinQ';
+const key = 'AIzaSyAw0nSupvg8UzcAfMrg1OWZpCK2CT8PA1U';
 
 
 export const signIn = (email, password, isSignup, username) => {
@@ -29,7 +29,7 @@ export const signIn = (email, password, isSignup, username) => {
                 returnSecureToken: true,
             })
             if (isSignup) {
-                await axios.post(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/user.json`, {
+                await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`, {
                     email,
                     username,
                     userId: data.data.localId,
@@ -50,13 +50,14 @@ export const signIn = (email, password, isSignup, username) => {
 export const getUserData = () => {
    
     return async dispatch => {
+        
          
         try {
-const responce = await axios.get(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/user.json`)
+const responce = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`)
 
-const responceList = [];
+ const responceList = [];
 for(let key in responce.data){
-    responceList.push({
+   await responceList.push({
         email:responce.data[key].email,
         userId:responce.data[key].userId,
         username:responce.data[key].username,
@@ -64,10 +65,11 @@ for(let key in responce.data){
         key
     })
 }
-     
-dispatch({
+   
+ dispatch({
             type:GET_USERDATA,
             userData:responceList,
+            
         })   
 
 } catch (error) {

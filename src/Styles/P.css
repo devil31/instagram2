@@ -1,6 +1,6 @@
-.post_container{
-    width: 60%;
-    max-width: 500px;
+.p_container{
+    width: 500px;
+    max-width: 700px;
     height: auto !important;
     margin-bottom: 30px;
     background-color: white;
@@ -14,22 +14,25 @@
     align-items: center;
     padding:10px;
     justify-content: space-between;
-  }
-  .postImage{   
-    width: 100%;  
-    display: flex;
-    max-height: 500px;
-    max-width: 500px;
     
   }
-  .postIcon{
-    height: 50px;
+  .pImage{   
+    width: 400px;  
+    display: flex;    
+    height: 500px;
+
+    
+  }
+  .pIcons{
+    height: 60px;
     padding:10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 0px;
+    border-top: 1px solid lightgrey;
   }
-  .postImage img{
+  .pImage img{
    width:100%;
    height: auto !important;
    object-fit: cover;
@@ -45,6 +48,7 @@
   font-size: 13px;
   color: grey;
   cursor: pointer;
+  
   }
   .post_date{
     padding:10px;
@@ -52,37 +56,43 @@
     color: grey;
     font-weight: 400;
   }
-  .addComments{
+  .p_addComments{
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 5px;
     border-top: 1px solid lightgrey;
     height: 50px;
+  
+   
+   
   }
-  .addComments input{
+  .p_addComments input{
     width: 60%;
     font-size: 13px;
     border: none;
     outline: none;
   }
-  .addComments button{
+  .p_addComments button{
     border: none;
     background-color: transparent;
     font-size: 14px;
     color:rgb(0, 134, 243);
+    
   }
   .render_postComments{
     display: flex;
     flex-direction: column;
     width: 100%;
+   
   
   }
   .renderComment_Time{
     font-size: 10px;
     font-weight: 400;
     color: grey;
-    margin-bottom: 5px;
+    margin-top: -18px;
+    margin-bottom: 10px;
   }
   .post_text{
     margin-left: 10px;
@@ -94,10 +104,37 @@
     
   }
   
-  @media screen and (min-width: 992px) {
-   .post_container{
-     width: 50%;
-     
-     
-   }
+  .p_Comments{
+    padding:10px;
+    overflow-y: scroll;  
+    max-height: 300px;
+   
+    
   }
+  @media screen and (min-width: 1000px) {
+   .p_container{
+     width: 90%;     
+   }
+ 
+  }
+
+  @media screen and (max-width: 1000px) {
+   
+    .hide{
+      display: none;
+      
+    }
+    .pImage{
+ width: 100%;
+
+    }
+    .postImageRow{
+      display: flex;
+      flex-direction: column;     
+    }
+    .p_addComments{
+      display: none;
+    }
+  
+   }
+

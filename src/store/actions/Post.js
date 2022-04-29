@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { getUserData } from "./Auth";
 export const CREATE_POST = 'CREATE_POST';
 export const CREATE_POSTSTART = 'CREATE_POSTSTART';
 export const CREATE_POSTSUCCESS = 'CREATE_POSTSUCCESS';
@@ -26,7 +28,7 @@ export const createPost = (txtArea, loc, username, loadImg, date,) => {
 
         try {
 
-            const result = await axios.post('https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/post.json', {
+            const result = await axios.post('https://inst-4237b-default-rtdb.firebaseio.com/post.json', {
                 text: txtArea,
                 loc,
                 username,
@@ -49,7 +51,7 @@ export const createPost = (txtArea, loc, username, loadImg, date,) => {
 
 export const fetchPost = () => {
     return async dispatch => {
-        const fetchData = await axios.get(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/post.json`)
+        const fetchData = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/post.json`)
         const fetchDataList = [];
         for (let key in fetchData.data) {
             fetchDataList.push({
@@ -57,13 +59,13 @@ export const fetchPost = () => {
                 loc: fetchData.data[key].loc,
                 username: fetchData.data[key].username,
                 date: fetchData.data[key].date,
-                comments: fetchData.data[key].comments,                
+                comments: fetchData.data[key].comments,
                 key,
             })
         }
         dispatch({
             type: FETCH_POST,
-            fetchDataPost: fetchDataList,           
+            fetchDataPost: fetchDataList,
         })
     }
 }
@@ -74,7 +76,7 @@ export const postComment = (postId, username, inputComment, date,) => {
     return async dispatch => {
         dispatch(commentPostStart())
         try {
-            const commentResponce = await axios.post(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/post/${postId}/comments.json`, {
+            const commentResponce = await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}/comments.json`, {
                 username,
                 inputComment,
                 date
@@ -97,8 +99,8 @@ export const deletePost = (postId) => {
         dispatch(deletePostStart())
         try {
             console.log(postId)
-            const responce = await axios.delete(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/post/${postId}.json`)
-
+            const responce = await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}.json`)
+              
             await dispatch(deletePostSuccess(responce))
             dispatch(fetchPost())
         } catch (error) {
@@ -107,14 +109,14 @@ export const deletePost = (postId) => {
     }
 }
 
-export const savePost = (UserKey, postId) => {
+export const savePost = (UserKey, postId,loadImg) => {
 
     return async dispatch => {
         dispatch(savePostStart())
         dispatch(fetchPost())
-        console.log('satrt')
+       dispatch(getUserData())
         try {
-            const check = await axios.get(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/user/${UserKey}/saved.json`)
+            const check = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`)
             const checkList = [];
             for (let key in check.data) {
                 checkList.push({
@@ -123,21 +125,23 @@ export const savePost = (UserKey, postId) => {
                 })
             }
             const idExist = checkList.map(i => i.postId).includes(postId)
-
+            console.log(idExist)
             const findKey = checkList.find(i => i.postId == postId)
             const key = findKey && findKey.key
-          
+
             if (idExist) {
-                await axios.delete(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/user/${UserKey}/saved/${key}.json`);
+                await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved/${key}.json`);
             } else {
-                const responce = await axios.post(`https://insta-c8df9-default-rtdb.europe-west1.firebasedatabase.app/user/${UserKey}/saved.json`, {
-                    postId
+                const responce = await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`, {
+                    postId,
+                    loadImg,
                 })
-                  console.log('success') 
+                dispatch(getUserData())
                 dispatch(savePostSuccess(responce))
-                dispatch(fetchPost())
-                
-                   
+
+
+
+
             }
 
         } catch (error) {

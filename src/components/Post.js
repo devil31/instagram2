@@ -1,56 +1,59 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsHeart, BsEmojiSmile } from 'react-icons/bs';
-import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline } from 'react-icons/io5'
+import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline, IoBookmark } from 'react-icons/io5'
 import ModalComment from './ModalComments';
 import ModalOptions from './ModalOptions'
 import { fetchPost, postComment, savePost, savePostStart } from '../store/actions/Post';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../store/actions/Post';
 
 import '../Styles/Post.css'
 import { getUserData } from '../store/actions/Auth';
 import { Spinner } from 'react-bootstrap';
+import axios from 'axios';
 
 
 function Post({ username, loadImg, postId, fullDate, comments, text, }) {
   const [modalShow, setModalShow] = useState(false);
-  const [inputComment, setInputComment] = useState('') 
+  const [inputComment, setInputComment] = useState('')
   const [modalShowOptions, setModalShowOptions] = useState(false);
-  const loadingDeletePost = useSelector(state=>state.Post.loadingDeletePost)
- const[color,setColor] = useState('')
+  const loadingDeletePost = useSelector(state => state.Post.loadingDeletePost)
+  const [color, setColor] = useState('')
   const date = new Date().getTime();
   const dispatch = useDispatch()
   const m = new Array(12)
   const myUserData = useSelector(state => state.Auth.userData)
-  const loadingsavedPost = useSelector(state=>state.Post.loadingSavePost)
+  const loadingsavedPost = useSelector(state => state.Post.loadingSavePost)
   const myId = JSON.parse(localStorage.getItem('userId')).userId
-  const findUser = myUserData.find(e => e.userId == myId)  
+  const findUser = myUserData.find(e => e.userId == myId)
   const myUsername = findUser && findUser.username
   const UserKey = findUser && findUser.key;
-  
-
-useEffect(()=>{
-dispatch(getUserData())
- const a = []
-for(let key in findUser.saved){
-  a.push({
-    postId:findUser.saved[key].postId,
-  })
-}
-console.log(a)
-setColor( a.map(i=>i.postId).includes(postId))
-return
-},[loadingsavedPost])
-
-
- 
-
-   
 
 
 
+  const fetchUserData = async () => {
+    const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
+    const myKey = await findUser.key
+    const a = result.data[myKey].saved
+    const b = [];
+    for (let key in a) {
+      b.push({
+        postId: a[key].postId,
+       
 
-console.log(color)
+      })
+    }
+
+    const changeColor = (b.find(i => i.postId == postId));
+    changeColor == null ? setColor('black') : setColor('green')
+  }
+
+  useEffect(() => {
+    dispatch(getUserData())
+    fetchUserData()
+
+  }, [loadingsavedPost])
+
 
   const handleComment = (e) => {
     e.preventDefault()
@@ -59,7 +62,7 @@ console.log(color)
 
 
   const comment = () => {
-    if(inputComment==''){
+    if (inputComment == '') {
       return
     }
     dispatch(postComment(postId, myUsername, inputComment, date, comments))
@@ -70,7 +73,7 @@ console.log(color)
     username === myUsername ? setModalShowOptions(true) : console.log('no')
   }
 
-  const removepost = ()=>{
+  const removepost = () => {
     dispatch(deletePost(postId))
   }
   const listComments = [];
@@ -82,9 +85,11 @@ console.log(color)
       key
     })
   }
-const save = ()=>{  
-  dispatch(savePost(UserKey,postId)) 
-}
+  const save = () => {
+    dispatch(savePost(UserKey, postId,loadImg))
+    dispatch(getUserData())
+
+  }
   const renderComments = listComments.map((i) => {
     const time = (Math.floor((new Date().getTime() - i.date) / 60000))
     let Time = ''
@@ -133,7 +138,7 @@ const save = ()=>{
 
         </div>
         <div>
-          <p  onClick={optionPost} style={{ cursor: 'pointer', fontSize: '25px' }} >...</p>
+          <p onClick={optionPost} style={{ cursor: 'pointer', fontSize: '25px' }} >...</p>
         </div>
 
       </div>
@@ -149,12 +154,13 @@ const save = ()=>{
           <IoPaperPlaneOutline size={'25px'} />
         </div>
         <div className="postIconSave">
-        {loadingsavedPost ? 
-        <Spinner animation='border' size='sm' style={{marginRight:5}}/>:
-        <IoBookmarkOutline size={'25px'} onClick={save} color={color ? 'green':'black'}/>          
-        }
-          
-     
+          {loadingsavedPost ?
+            <Spinner animation='border' size='sm' style={{ marginRight: 5 }} /> :
+          color == 'black' ? <IoBookmarkOutline size={'25px'} onClick={save} color={`${color}`} style={{ cursor: 'pointer', }} />:<IoBookmark onClick={save} size={25} style={{cursor:'pointer'}}/>
+            
+          }
+
+
         </div>
       </div>
 
@@ -189,10 +195,10 @@ const save = ()=>{
         rendercomments={renderComments}
         fulldate={fullDate}
         m={m}
-        myusername = {myUsername}
+        myusername={myUsername}
 
       />
-    <ModalOptions
+      <ModalOptions
         show={modalShowOptions}
         onHide={() => setModalShowOptions(false)}
         deletePost={removepost}

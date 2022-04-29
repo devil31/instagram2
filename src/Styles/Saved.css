@@ -1,0 +1,37 @@
+.Saved__Container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .Saved__Setup {
+    margin-top: 50px;
+    width: 100%;
+    height: 150px;
+    border-bottom: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+  }
+  .Saved__Avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    border: 1px solid lightgrey;
+    background-color: white; 
+    margin-left: 30px;
+  }
+  .Saved__Profile{
+      margin-left: 30px;
+  
+  }
+  .Saved__Profile button{
+  border: none;
+  height: 35px;
+  width: 180px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  }

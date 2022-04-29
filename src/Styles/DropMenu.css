@@ -1,0 +1,34 @@
+
+.drop_menuContainer{
+    position: absolute;
+    right:80px ;
+    top:50px;
+    width: 150px;
+    background-color: white;
+    height: 110px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    
+
+}
+.drop_menuBody{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    
+}
+.drop_menuBody a{
+    text-decoration: none;
+    color: black;    
+    font-size:small;    
+    width: 100%;   
+}
+.drop_icon{
+ display: flex; 
+ width: 100%;
+ padding: 8px;
+}
+.drop_icon:hover{
+   background-color: lightgrey;
+   
+}
