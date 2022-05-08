@@ -20,8 +20,6 @@
     width: 400px;  
     display: flex;    
     height: 500px;
-
-    
   }
   .pIcons{
     height: 60px;
@@ -84,14 +82,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    
    
   
   }
-  .renderComment_Time{
+  .prenderComment_Time{
     font-size: 10px;
     font-weight: 400;
     color: grey;
-    margin-top: -18px;
+    margin-top: -15px;
     margin-bottom: 10px;
   }
   .post_text{
@@ -99,8 +98,8 @@
     font-size: 13px;
     
   }
-  .post_renderComments{
-    font-size: 13px;
+  .p_renderComments{
+    font-size: 13px; 
     
   }
   
@@ -108,9 +107,26 @@
     padding:10px;
     overflow-y: scroll;  
     max-height: 300px;
+    min-height: 300px;
    
     
   }
+  .p_itemContainer{
+    display: flex;
+    height: 50px;
+  
+  }
+  .p_comments{
+    margin-top: 5px;
+  }
+  .p_avatar{
+    width: 30px;
+    height: 30px;
+    border: 1px solid lightgrey;
+    border-radius: 100%;
+    margin-right: 10px;
+  }
+  
   @media screen and (min-width: 1000px) {
    .p_container{
      width: 90%;     

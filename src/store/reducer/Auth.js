@@ -50,8 +50,14 @@ const Auth = (state = initialState, action) => {
             case actionTypes.GET_USERDATA:
                 return{
                     ...state,
-                    userData:action.userData,
+                    userData: action.userData,
+                    loading:false
                 }
+                case actionTypes.GET_USERDATASTART:
+                    return{
+                        ...state,
+                        loading:true,
+                    }
         default:
             return state;
 

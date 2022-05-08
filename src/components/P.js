@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BsHeart, BsEmojiSmile } from 'react-icons/bs';
-import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline,IoBookmark } from 'react-icons/io5'
+import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline, IoBookmark } from 'react-icons/io5'
 import ModalComment from './ModalComments';
 import ModalOptions from './ModalOptions'
 import { fetchPost, postComment, savePost, savePostStart } from '../store/actions/Post';
@@ -18,7 +18,7 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
     const [inputComment, setInputComment] = useState('')
     const [modalShowOptions, setModalShowOptions] = useState(false);
     const loadingDeletePost = useSelector(state => state.Post.loadingDeletePost)
-    const [color, setColor] = useState('')
+    const [color, setColor] = useState(false)
     const date = new Date().getTime();
     const dispatch = useDispatch()
     const m = new Array(12)
@@ -29,27 +29,35 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
     const myUsername = findUser && findUser.username
     const UserKey = findUser && findUser.key;
 
-
-
-    const fetchUserData = async () => {
-        const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
-        const myKey = await findUser.key
-        const a = result.data[myKey].saved
-        const b = [];
-        for (let key in a) {
-            b.push({
-                postId: a[key].postId
-            })
-        }
-
-        const changeColor = (b.find(i => i.postId == postId));
-        changeColor == null ? setColor('black') : setColor('green')
-    }
-
     useEffect(() => {
         dispatch(getUserData())
         fetchUserData()
     }, [loadingsavedPost])
+
+
+    const fetchUserData = async () => {
+        dispatch(fetchPost())
+        dispatch(getUserData())
+        const myKey = findUser.key
+        const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
+        console.log(myKey)
+
+        if (result.data[myKey].saved != undefined) {
+            const a = result.data[myKey].saved;
+            const b = [];
+            for (let key in a) {
+                b.push({
+                    postId: a[key].postId,
+                })
+            }
+
+            const changeColor = (b.find(i => i.postId == postId));
+            changeColor == null ? setColor(false) : setColor(true)
+        } else {
+            setColor(false)
+        }
+    }
+
 
 
     const handleComment = (e) => {
@@ -79,11 +87,12 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
             date: comments[key].date,
             inputComment: comments[key].inputComment,
             username: comments[key].username,
+            profileimg:comments[key].profileimg,
             key
         })
     }
     const save = () => {
-        dispatch(savePost(UserKey, postId))
+        dispatch(savePost(UserKey, postId, loadImg))
         dispatch(getUserData())
 
     }
@@ -102,13 +111,20 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
         if (time > 8640) {
             Time = `${(time / 8640).toFixed(0)} sett`
         }
+        console.log(listComments)
         return (
-            <div key={i.key} className='post_renderComments'>
+            <div key={i.key} className='p_renderComments'>
+            <div className='p_itemContainer'>
+           <div className='p_avatar' style={{backgroundImage:`url(${i.profileimg})`,backgroundPosition:'center',backgroundRepeat:'no-repeat',backgroundSize:'cover'}}></div>
+           <div className='p_comments'>
+                     <p> <strong>{i.username}</strong> {i.inputComment}</p>
+           </div>
+ 
+    
+      </div>
 
-                <p> <strong>{i.username}</strong> {i.inputComment}</p>
 
-
-                <div className='renderComment_Time'>
+                <div className='prenderComment_Time'>
                     {Time}
                 </div>
             </div>
@@ -148,9 +164,9 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
                             <img src={`${loadImg}`} />
                         </div>
                     </Col>
-                    
+
                     <Col className='gx-0 ' >
-                        <div  className='p_Comments hide'>
+                        <div className='p_Comments hide'>
                             {renderComments}
                         </div>
                         <div className='pIcons'>
@@ -162,7 +178,7 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
                             <div className="pIconsSave">
                                 {loadingsavedPost ?
                                     <Spinner animation='border' size='sm' style={{ marginRight: 5 }} /> :
-                                    color == 'black' ? <IoBookmarkOutline size={'25px'} onClick={save} color={`${color}`} style={{ cursor: 'pointer', }} />:<IoBookmark onClick={save} size={25} style={{cursor:'pointer'}}/>
+                                    color == false ? <IoBookmarkOutline size={'25px'} onClick={save} style={{ cursor: 'pointer', }} /> : <IoBookmark onClick={save} size={25} style={{ cursor: 'pointer' }} />
                                 }
 
 

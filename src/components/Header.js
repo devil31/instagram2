@@ -20,9 +20,12 @@ function Header() {
     const myId = JSON.parse(localStorage.getItem('userId')).userId
     const findUser = myUserData.find(e => e.userId === myId)
     const username = findUser && findUser.username
+    const profileimg = findUser && findUser.profileImg;
 
+    
     return (
-        <Navbar fixed="top" variant="light" style={{ borderBottom: '1px solid lightgrey', background: 'white' }}>
+    
+        <Navbar  fixed="top" variant="light" style={{ borderBottom: '1px solid lightgrey', background: 'white' }}>
             <Container>
                 <Navbar.Brand href="/">Instagram</Navbar.Brand>
 
@@ -43,6 +46,7 @@ function Header() {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 username={username}
+                profileimg = {profileimg}
             />
 
         </Navbar>

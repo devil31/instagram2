@@ -7,6 +7,7 @@ import Post from '../components/Post'
 import { getUserData } from '../store/actions/Auth'
 
 
+
 function Home() {
   const dispatch = useDispatch()
  
@@ -21,8 +22,8 @@ function Home() {
  
   const renderPost = useSelector(state=>state.Post.fetchDataPost)
  
-  
-  const render = renderPost.map(i=><Post key={i.key} loadImg={i.loadImg} username={i.username} fullDate={i.date} postId={i.key} comments={i.comments} />)
+ 
+  const render = renderPost.map(i=><Post key={i.key} loadImg={i.loadImg} username={i.username} fullDate={i.date} postId={i.key} comments={i.comments} profileImg={i.profileimg}/>)
  
   return (
 <div style={{ marginTop: '200px', display: 'flex', alignItems: 'center', flexDirection: 'column' }} >

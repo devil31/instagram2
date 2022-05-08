@@ -21,10 +21,11 @@ export const SAVE_POSTSUCCESS = 'SAVE_POSTSUCCESS';
 export const SAVE_POSTFAIL = 'SAVE_POSTFAIL';
 
 
-export const createPost = (txtArea, loc, username, loadImg, date,) => {
+export const createPost = (txtArea, loc, username, loadImg, date,profileimg) => {
 
     return async dispatch => {
         dispatch(createPostStart())
+       
 
         try {
 
@@ -35,7 +36,7 @@ export const createPost = (txtArea, loc, username, loadImg, date,) => {
                 loadImg,
                 date,
                 like: { users: '' },
-
+                profileimg,
 
 
             })
@@ -60,6 +61,7 @@ export const fetchPost = () => {
                 username: fetchData.data[key].username,
                 date: fetchData.data[key].date,
                 comments: fetchData.data[key].comments,
+                profileimg:fetchData.data[key].profileimg,
                 key,
             })
         }
@@ -71,15 +73,16 @@ export const fetchPost = () => {
 }
 
 
-export const postComment = (postId, username, inputComment, date,) => {
+export const postComment = (postId, username, inputComment, date,profileimg) => {
 
     return async dispatch => {
-        dispatch(commentPostStart())
+        dispatch(commentPostStart())        
         try {
             const commentResponce = await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}/comments.json`, {
                 username,
                 inputComment,
-                date
+                date,
+                profileimg,
 
             })
 
@@ -96,12 +99,17 @@ export const postComment = (postId, username, inputComment, date,) => {
 export const deletePost = (postId) => {
 
     return async dispatch => {
-        dispatch(deletePostStart())
+       dispatch(deletePostStart())
         try {
-            console.log(postId)
-            const responce = await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}.json`)
+                 const responce = await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}.json`)
               
-            await dispatch(deletePostSuccess(responce))
+            const getData = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`);
+            const Data = (Object.values(getData.data).map(x=>x.saved))
+             
+     
+     
+         await dispatch(deletePostSuccess(responce))
+          
             dispatch(fetchPost())
         } catch (error) {
             dispatch(deletePostFail(error))
@@ -109,12 +117,12 @@ export const deletePost = (postId) => {
     }
 }
 
-export const savePost = (UserKey, postId,loadImg) => {
+export const savePost = (UserKey, postId, loadImg) => {
 
     return async dispatch => {
         dispatch(savePostStart())
         dispatch(fetchPost())
-       dispatch(getUserData())
+        dispatch(getUserData())
         try {
             const check = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`)
             const checkList = [];

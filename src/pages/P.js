@@ -25,6 +25,8 @@ function P() {
       <Header />
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 120 }}>
         {filterPost == '' ? navigate("/") : renderPost}
+    
+    
       </div>
     </div>
 

@@ -1,5 +1,6 @@
 .modal_Body {
     min-height: 400px;
+    
   }
   
   .modal_container {
@@ -23,15 +24,27 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 70px;
-    font-size: 13px;
+    width: 200px;  
     font-weight: 400;
+    margin-left: -50px;
+  }
+  .modal_username{
+
+   font-size: 12px;
+   font-weight: 700;
+   margin-top: 10px;
+   margin-left: -100px;
+ 
   }
   .modal_headerAvatar {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border: 1px solid lightgrey;
     border-radius: 100%;
+    padding: 20px;
+    
+  ;
+    
   }
   .modal_body {
     display: flex;
@@ -41,6 +54,7 @@
     height: 140px;
     padding: 5px;
     font-size: 15px;
+   
   }
   .modal_footer {
     position: absolute;
@@ -53,12 +67,17 @@
     flex-direction: column;
     font-size: 15px;
     padding-top: 10px;
+    
   }
   .modal_footerIcons{
     display: flex;
     align-items: center;
     justify-content: space-between;
     
+  }
+  .modalIconSave{
+    margin-right: 10px;
+    cursor: pointer;
   }
   .modal__footerLikes {
     margin-left: 5px;
@@ -81,6 +100,10 @@
     margin-bottom: 10px;
     padding: 5px;
   }
+  .modal__footerAddComment label{
+    color:rgb(0, 134, 243);
+    cursor: pointer;
+  }
   .modal_footer input {
     width: 60%;
     border: unset;
@@ -89,4 +112,5 @@
     margin-inline: 5px;
     height: 20px;
   }
+  
   

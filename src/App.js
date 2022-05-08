@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authCheck } from './store/actions/Auth';
 import Saved from './pages/Saved';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 
 
@@ -31,6 +32,7 @@ function App() {
     
           </Route>
           <Route path='/p/:postId' element={<P/>}/>
+          <Route path='/accounts/edit' element={<EditProfile/>}/>
    
         </Routes>
         :

@@ -6,53 +6,67 @@ import ModalOptions from './ModalOptions'
 import { fetchPost, postComment, savePost, savePostStart } from '../store/actions/Post';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost } from '../store/actions/Post';
-
 import '../Styles/Post.css'
 import { getUserData } from '../store/actions/Auth';
 import { Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
 
-function Post({ username, loadImg, postId, fullDate, comments, text, }) {
+
+function Post({ username, loadImg, postId, fullDate, comments, text, profileImg}) {
   const [modalShow, setModalShow] = useState(false);
   const [inputComment, setInputComment] = useState('')
   const [modalShowOptions, setModalShowOptions] = useState(false);
   const loadingDeletePost = useSelector(state => state.Post.loadingDeletePost)
-  const [color, setColor] = useState('')
+  const [color, setColor] = useState(false)
   const date = new Date().getTime();
   const dispatch = useDispatch()
   const m = new Array(12)
   const myUserData = useSelector(state => state.Auth.userData)
   const loadingsavedPost = useSelector(state => state.Post.loadingSavePost)
   const myId = JSON.parse(localStorage.getItem('userId')).userId
+
+
   const findUser = myUserData.find(e => e.userId == myId)
   const myUsername = findUser && findUser.username
   const UserKey = findUser && findUser.key;
-
-
-
-  const fetchUserData = async () => {
-    const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
-    const myKey = await findUser.key
-    const a = result.data[myKey].saved
-    const b = [];
-    for (let key in a) {
-      b.push({
-        postId: a[key].postId,
-       
-
-      })
-    }
-
-    const changeColor = (b.find(i => i.postId == postId));
-    changeColor == null ? setColor('black') : setColor('green')
-  }
+  const profileimg = findUser && findUser.profileImg;
 
   useEffect(() => {
     dispatch(getUserData())
     fetchUserData()
 
   }, [loadingsavedPost])
+
+
+
+  const fetchUserData = async () => {
+
+    dispatch(fetchPost())
+    dispatch(getUserData())
+    const myKey = findUser && findUser.key
+    
+    const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
+ 
+
+    if (result.data[myKey].saved != undefined) {
+      const a =result && result.data[myKey].saved;
+      const b = [];
+      for (let key in a) {
+        b.push({
+          postId: a[key].postId,
+        })
+      }
+
+      const changeColor = (b.find(i => i.postId == postId));
+      changeColor == null ? setColor(false) : setColor(true)
+    } else {
+      setColor(false)
+    }
+
+  }
+
+
 
 
   const handleComment = (e) => {
@@ -82,14 +96,17 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
       date: comments[key].date,
       inputComment: comments[key].inputComment,
       username: comments[key].username,
+      profileimg:comments[key].profileimg,
       key
     })
   }
   const save = () => {
-    dispatch(savePost(UserKey, postId,loadImg))
+    dispatch(savePost(UserKey, postId, loadImg))
     dispatch(getUserData())
 
   }
+
+ 
   const renderComments = listComments.map((i) => {
     const time = (Math.floor((new Date().getTime() - i.date) / 60000))
     let Time = ''
@@ -107,8 +124,15 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
     }
     return (
       <div key={i.key} className='post_renderComments'>
-
-        <p> <strong>{i.username}</strong> {i.inputComment}</p>
+      <div className='post_itemContainer'>
+           <div className='post_avatar' style={{backgroundImage:`url(${i.profileimg})`,backgroundPosition:'center',backgroundRepeat:'no-repeat',backgroundSize:'cover'}}></div>
+           <div className='post_comments'>
+                     <p> <strong>{i.username}</strong> {i.inputComment}</p>
+           </div>
+ 
+    
+      </div>
+       
 
 
         <div className='renderComment_Time'>
@@ -130,13 +154,22 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
   m[9] = 'SETTEMBRE';
   m[10] = 'OTTOBRE';
   m[11] = 'NOVEMBRE';
+
+
   return (
     <div className='post_container'>
       <div className="postHeader">
-        <div>
-          {username}
 
-        </div>
+      <div className='post_avatar' style={{backgroundImage:`url(${profileImg})`,backgroundPosition:'center',backgroundRepeat:'no-repeat',backgroundSize:'cover'}}>
+      <div className='postUsername'>{username}</div>
+             
+      </div>
+       
+   
+        
+     
+
+      
         <div>
           <p onClick={optionPost} style={{ cursor: 'pointer', fontSize: '25px' }} >...</p>
         </div>
@@ -156,8 +189,8 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
         <div className="postIconSave">
           {loadingsavedPost ?
             <Spinner animation='border' size='sm' style={{ marginRight: 5 }} /> :
-          color == 'black' ? <IoBookmarkOutline size={'25px'} onClick={save} color={`${color}`} style={{ cursor: 'pointer', }} />:<IoBookmark onClick={save} size={25} style={{cursor:'pointer'}}/>
-            
+            color == false ? <IoBookmarkOutline size={'25px'} onClick={save} style={{ cursor: 'pointer', }} /> : <IoBookmark onClick={save} size={25} style={{ cursor: 'pointer' }} />
+
           }
 
 
@@ -196,6 +229,10 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
         fulldate={fullDate}
         m={m}
         myusername={myUsername}
+        profileimg = {profileimg}
+        profileuser = {profileImg}
+        save = {save}
+        color = {color}
 
       />
       <ModalOptions
@@ -203,6 +240,7 @@ function Post({ username, loadImg, postId, fullDate, comments, text, }) {
         onHide={() => setModalShowOptions(false)}
         deletePost={removepost}
         spinner={loadingDeletePost}
+        postId={postId}
       />
 
     </div>

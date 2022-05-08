@@ -7,6 +7,7 @@ export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const GET_USERDATA = 'GET_USERDATA';
+export const GET_USERDATASTART = 'GET_USERDATASTART';
 
 
 
@@ -51,8 +52,10 @@ export const getUserData = () => {
    
     return async dispatch => {
         
-         
+      
         try {
+           dispatch(getUserDataStart())  
+            
 const responce = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`)
 
  const responceList = [];
@@ -62,15 +65,16 @@ for(let key in responce.data){
         userId:responce.data[key].userId,
         username:responce.data[key].username,
         saved:responce.data[key].saved,
+        profileImg:responce.data[key].profileImg,
         key
     })
 }
    
  dispatch({
             type:GET_USERDATA,
-            userData:responceList,
-            
-        })   
+            userData:responceList,            
+        })
+    
 
 } catch (error) {
 
@@ -107,6 +111,13 @@ export const Logout = () => {
     return {
         type: LOGOUT,
     }
+}
+
+export const getUserDataStart = ()=>{
+    return{
+            type:GET_USERDATASTART,
+    }
+
 }
 
 export const authCheck = () => {

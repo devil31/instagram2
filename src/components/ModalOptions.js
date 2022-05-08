@@ -2,6 +2,7 @@
 import React from 'react'
 import { Modal, Container, Row, Col } from 'react-bootstrap'
 import { Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 
@@ -18,8 +19,8 @@ function ModalOptions(props) {
                         <Row onClick={props.deletePost} style={{ marginTop: '10px', borderBottom: '1px solid grey', width: '100%', textAlign: 'center', cursor: 'pointer', color: 'red' }}>
                             <p>Elimina</p>
                         </Row>
-                        <Row style={{ borderBottom: '1px solid grey', width: '100%', textAlign: 'center', cursor: 'pointer' }}>
-                            <p>Vai al post</p>
+                        <Row  style={{ borderBottom: '1px solid grey', width: '100%', textAlign: 'center', cursor: 'pointer' }}>
+                          <Link style={{textDecoration:'none',color:'ligthgrey'}} to={`/p/${props.postId}`}> <p>Vai al post</p></Link> 
                         </Row>
                         <Row style={{ width: '100%', textAlign: 'center', cursor: 'pointer' }} onClick={() => props.onHide()}>
                             <p> Annulla</p>

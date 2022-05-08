@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import '../Styles/Auth.css';
 import { signIn } from '../store/actions/Auth'
-import Loading from '../components/Loading';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
+
 
 
 function Login() {
@@ -49,8 +50,18 @@ function Login() {
 
   return (
     <div className='Auth__container'>
-      {loading ? <Loading /> : ''}
-      <div className='Auth__formContainer'>
+   
+      
+      <Container  style={{display:'flex',justifyContent:'center'}}>
+         <Row >
+      <Col  >
+             <div className='Auth__sideBoxImage'>
+        
+      </div>
+      </Col>
+      <Col>
+        <div className='Auth__formContainer'>
+      
         <div>
           <p>Instagram</p>
         </div>
@@ -59,10 +70,20 @@ function Login() {
         {isSignup ? <input className='input' value={username} placeholder='User Name' onChange={inputuserName}></input> : ''}
         {<button className='btn' onClick={login} >{loading ? '' : isSignup ? `Sign Up` : `Login`}</button>}
         {isSignup ? '' : fail ? <p className='AuthFail'>Credenziali errate</p> : ''}
+     {loading ? <Spinner animation="border"  variant='info' style={{marginTop:20}}/> : ''}
       </div>
       <div className='parag'>
         {isSignup ? <p>hai gia un account? effettua il <a href='#' onClick={change}>Login</a></p> : <p>non sei ancora registrato? effettua il <a href='#' onClick={change}>SignUp</a></p>}
+      
       </div>
+      
+      </Col>   
+
+      
+      </Row>
+      </Container>
+     
+      
     </div>
   )
 }

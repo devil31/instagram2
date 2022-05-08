@@ -14,7 +14,7 @@ function ModalCreatePost(props) {
   const [loc, setLoc] = useState('')
   const [txtArea, setTxtArea] = useState('')
   const loading = useSelector(state => state.Post.loading)
-
+  const profileimg = props.profileimg;
 
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ function ModalCreatePost(props) {
       Month: new Date().getMonth() + 1,
       Year: new Date().getFullYear(),
     }
-    dispatch(createPost(txtArea, loc, props.username, loadImg, date))
+    dispatch(createPost(txtArea, loc, props.username, loadImg, date,profileimg))
     if (loading == false) {
       props.onHide()
       setLoadImg('')
@@ -44,7 +44,7 @@ function ModalCreatePost(props) {
       setTxtArea('')
     }
   }
-
+ 
   const handlerTxtArea = (e) => {
     setTxtArea(e.target.value)
   }
@@ -75,7 +75,12 @@ function ModalCreatePost(props) {
               <Col style={{ borderBottomRightRadius: '4px' }} className='nopadding'>
                 <div className='header_ModalCreate' >
                   <div>
-                    <FaUserCircle color='lightgrey' size={'30px'} />
+                  {profileimg ? 
+                  <div style={{width:40,height:40,border:'1px solid lightgrey',borderRadius:100,backgroundImage:`url(${profileimg})`,backgroundSize:'cover',backgroundPosition:'center',backgroundRepeat:'no-repeat',}}></div>
+                  :
+                  <FaUserCircle color='lightgrey' size={'30px'} />
+                  }
+                    
                   </div>
 
                   <div style={{ height: 30, marginLeft: 5 }}>
