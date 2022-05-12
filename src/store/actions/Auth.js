@@ -11,7 +11,7 @@ export const GET_USERDATASTART = 'GET_USERDATASTART';
 
 
 
-const key = 'AIzaSyAw0nSupvg8UzcAfMrg1OWZpCK2CT8PA1U';
+const key = 'AIzaSyB3YSJzeB1-K23QY62u6Tck0f8u7zzMpuo';
 
 
 export const signIn = (email, password, isSignup, username) => {
@@ -30,7 +30,7 @@ export const signIn = (email, password, isSignup, username) => {
                 returnSecureToken: true,
             })
             if (isSignup) {
-                await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`, {
+                await axios.post(`https://inst2-76a9c-default-rtdb.firebaseio.com/user.json`, {
                     email,
                     username,
                     userId: data.data.localId,
@@ -56,7 +56,7 @@ export const getUserData = () => {
         try {
            dispatch(getUserDataStart())  
             
-const responce = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`)
+const responce = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/user.json`)
 
  const responceList = [];
 for(let key in responce.data){

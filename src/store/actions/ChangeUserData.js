@@ -14,7 +14,7 @@ export const updateUserData = (name, email, numb, selectedOption,myUserKey,loadI
         await console.log(myUserKey)
         dispatch(updateUserDataStart())
         try {
-            const result = await axios.patch(`https://inst-4237b-default-rtdb.firebaseio.com/user/${myUserKey}/.json`, {
+            const result = await axios.patch(`https://inst2-76a9c-default-rtdb.firebaseio.com/user/${myUserKey}/.json`, {
                 username: name,
                 email: email,
                 numb: numb,
@@ -35,7 +35,7 @@ export const changeImageProfile = (myUserKey,loadImg)=>{
 
   dispatch(changeImageProfileStart())
       try {
-      const result =  await axios.patch(`https://inst-4237b-default-rtdb.firebaseio.com/user/${myUserKey}/.json`,{
+      const result =  await axios.patch(`https://inst2-76a9c-default-rtdb.firebaseio.com/user/${myUserKey}/.json`,{
               profileImg:loadImg,
           })
 

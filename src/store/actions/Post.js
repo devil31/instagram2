@@ -29,7 +29,7 @@ export const createPost = (txtArea, loc, username, loadImg, date,profileimg) => 
 
         try {
 
-            const result = await axios.post('https://inst-4237b-default-rtdb.firebaseio.com/post.json', {
+            const result = await axios.post('https://inst2-76a9c-default-rtdb.firebaseio.com/post.json', {
                 text: txtArea,
                 loc,
                 username,
@@ -52,7 +52,7 @@ export const createPost = (txtArea, loc, username, loadImg, date,profileimg) => 
 
 export const fetchPost = () => {
     return async dispatch => {
-        const fetchData = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/post.json`)
+        const fetchData = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/post.json`)
         const fetchDataList = [];
         for (let key in fetchData.data) {
             fetchDataList.push({
@@ -78,7 +78,7 @@ export const postComment = (postId, username, inputComment, date,profileimg) => 
     return async dispatch => {
         dispatch(commentPostStart())        
         try {
-            const commentResponce = await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}/comments.json`, {
+            const commentResponce = await axios.post(`https://inst2-76a9c-default-rtdb.firebaseio.com/post/${postId}/comments.json`, {
                 username,
                 inputComment,
                 date,
@@ -101,9 +101,9 @@ export const deletePost = (postId) => {
     return async dispatch => {
        dispatch(deletePostStart())
         try {
-                 const responce = await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/post/${postId}.json`)
+                 const responce = await axios.delete(`https://inst2-76a9c-default-rtdb.firebaseio.com/post/${postId}.json`)
               
-            const getData = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user.json`);
+            const getData = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/user.json`);
             const Data = (Object.values(getData.data).map(x=>x.saved))
              
      
@@ -124,7 +124,7 @@ export const savePost = (UserKey, postId, loadImg) => {
         dispatch(fetchPost())
         dispatch(getUserData())
         try {
-            const check = await axios.get(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`)
+            const check = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`)
             const checkList = [];
             for (let key in check.data) {
                 checkList.push({
@@ -138,9 +138,9 @@ export const savePost = (UserKey, postId, loadImg) => {
             const key = findKey && findKey.key
 
             if (idExist) {
-                await axios.delete(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved/${key}.json`);
+                await axios.delete(`https://inst2-76a9c-default-rtdb.firebaseio.com/user/${UserKey}/saved/${key}.json`);
             } else {
-                const responce = await axios.post(`https://inst-4237b-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`, {
+                const responce = await axios.post(`https://inst2-76a9c-default-rtdb.firebaseio.com/user/${UserKey}/saved.json`, {
                     postId,
                     loadImg,
                 })

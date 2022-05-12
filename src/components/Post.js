@@ -46,7 +46,7 @@ function Post({ username, loadImg, postId, fullDate, comments, text, profileImg}
     dispatch(getUserData())
     const myKey = findUser && findUser.key
     
-    const result = await axios.get('https://inst-4237b-default-rtdb.firebaseio.com/user.json')
+    const result = await axios.get('https://inst2-76a9c-default-rtdb.firebaseio.com/user.json')
  
 
     if (result.data[myKey].saved != undefined) {
