@@ -1,15 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import LogOut from './pages/Logout';
 import Post from './pages/Post';
-import P from './pages/P';
-import { useSelector, useDispatch } from 'react-redux';
-import { authCheck } from './store/actions/Auth';
+import PostPage from './pages/PostPage';
 import Saved from './pages/Saved';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
+
+import { authCheck } from './store/actions/Auth';
+
+
 
 
 
@@ -31,7 +35,7 @@ function App() {
          <Route path='saved' element={<Saved/>}/>
     
           </Route>
-          <Route path='/p/:postId' element={<P/>}/>
+          <Route path='/p/:postId' element={<PostPage/>}/>
           <Route path='/accounts/edit' element={<EditProfile/>}/>
    
         </Routes>

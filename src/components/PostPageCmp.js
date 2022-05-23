@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { BsHeart, BsEmojiSmile } from 'react-icons/bs';
-import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline, IoBookmark } from 'react-icons/io5'
-import ModalComment from './ModalComments';
-import ModalOptions from './ModalOptions'
-import { fetchPost, postComment, savePost, savePostStart } from '../store/actions/Post';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePost } from '../store/actions/Post';
-import '../Styles/P.css'
-import { getUserData } from '../store/actions/Auth';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
 
+import { BsHeart, BsEmojiSmile } from 'react-icons/bs';
+import { IoPaperPlaneOutline, IoBookmarkOutline, IoChatbubbleOutline, IoBookmark } from 'react-icons/io5'
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 
-function P({ username, loadImg, postId, fullDate, comments, text, }) {
+import ModalComment from './ModalComments';
+import ModalOptions from './ModalOptions'
+import { fetchPost, postComment, savePost, } from '../store/actions/Post';
+import { deletePost } from '../store/actions/Post';
+import { getUserData } from '../store/actions/Auth';
+import '../Styles/P.css'
+
+
+
+function PostPageCmp({ username, loadImg, postId, fullDate, comments, text, }) {
     const [modalShow, setModalShow] = useState(false);
     const [inputComment, setInputComment] = useState('')
     const [modalShowOptions, setModalShowOptions] = useState(false);
@@ -240,4 +243,4 @@ function P({ username, loadImg, postId, fullDate, comments, text, }) {
     )
 }
 
-export default P
+export default PostPageCmp

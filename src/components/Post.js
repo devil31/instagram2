@@ -42,7 +42,7 @@ function Post({ username, loadImg, postId, fullDate, comments, text, profileImg}
 
   const fetchUserData = async () => {
 
-    dispatch(fetchPost())
+   await dispatch(fetchPost())
     dispatch(getUserData())
     const myKey = findUser && findUser.key
     

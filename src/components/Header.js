@@ -1,11 +1,14 @@
 import React, { useState, } from 'react';
+import { useSelector, } from 'react-redux';
+
 import { Navbar, Container, Nav, } from 'react-bootstrap';
 import { BsHouseDoor, BsPlusSquare, BsHeart, BsPersonCircle } from 'react-icons/bs'
 import { IoPaperPlaneOutline, IoCompassOutline, } from 'react-icons/io5'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import ModalCreatePost from './ModalCreatePost';
-import { useSelector, } from 'react-redux';
 import DropMenu from './DropMenu'
+
 
 
 
@@ -35,7 +38,7 @@ function Header() {
                     <Nav.Link ><BsPlusSquare onClick={() => setModalShow(true)} size={20} /></Nav.Link>
                     <Nav.Link href="#a"><IoCompassOutline size={25} /></Nav.Link>
                     <Nav.Link href="/logout"><BsHeart size={20} /></Nav.Link>
-                    <Nav.Link href="" onClick={() => setShow(!show)} ><BsPersonCircle size={20} /> </Nav.Link>
+                    <BsPersonCircle style={{marginTop:'12px',marginLeft:'10px',color:'grey',cursor:'pointer'}} size={20} onClick={() => setShow(!show)}/> 
                     {show == true ?
               <DropMenu myUserName={findUser.username} /> :
               null

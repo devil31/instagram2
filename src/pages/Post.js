@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchPost } from '../store/actions/Post';
 import { getUserData } from '../store/actions/Auth';
 

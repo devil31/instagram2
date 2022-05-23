@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import '../Styles/EditBox.css'
+
 import { updateUserData } from '../store/actions/ChangeUserData';
 import { getUserData } from '../store/actions/Auth';
-import { fetchPost } from '../store/actions/Post';
 import { changeImageProfile } from '../store/actions/ChangeUserData';
 import { Spinner } from 'react-bootstrap';
 

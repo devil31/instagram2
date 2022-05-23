@@ -1,7 +1,9 @@
 
 import React from 'react'
-import { Modal, Container, Row, Col } from 'react-bootstrap'
+
+import { Modal, Container, Row, } from 'react-bootstrap'
 import { Spinner } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
 
 

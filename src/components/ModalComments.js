@@ -1,15 +1,19 @@
 
 import React, { useState } from 'react'
-import '../Styles/ModalComments.css'
+import { useDispatch } from 'react-redux';
+
+import { FaUserCircle } from 'react-icons/fa';
+import {IoBookmark} from 'react-icons/io5'
 import { Modal, Container, Row, Col } from 'react-bootstrap'
 import { IoPaperPlaneOutline, IoChatbubbleOutline, IoBookmarkOutline } from 'react-icons/io5'
 import { BsHeart, BsEmojiSmile } from 'react-icons/bs';
-import { postComment } from '../store/actions/Post';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
-import {IoBookmark} from 'react-icons/io5'
 
-import Background from '../Utilities/2251.png';
+
+
+import { postComment } from '../store/actions/Post';
+import '../Styles/ModalComments.css'
+
+
 
 function ModalComments(props) {
     const [input, setInput] = useState('')

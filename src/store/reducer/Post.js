@@ -13,6 +13,7 @@ const initialState = {
     loadingSavePost: false,
     dataSavePost: [],
     errorSavePost: [],
+    fetchPostLoading:false,
 
 }
 
@@ -35,12 +36,16 @@ export const Post = (state = initialState, action) => {
                 loading: false,
                 errorCreatePost: action.errorCreatePost,
             }
-
-        case actionTypes.FETCH_POST:
+case actionTypes.FETCH_POSTSTART:
+    return{
+        ...state,
+        fetchPostLoading:true,
+    }
+        case actionTypes.FETCH_POSTSUCCESS:
             return {
                 ...state,
-                fetchDataPost: action.fetchDataPost,
-                loadingSavePost:false,
+                fetchDataPost: action.fetchDataPost,               
+                fetchPostLoading:false,
             }
         case actionTypes.COMMENT_POSTSTART:
             return {

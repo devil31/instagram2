@@ -1,4 +1,5 @@
 import React from 'react'
+
 import EditBox from '../components/EditBox'
 import Header from '../components/Header'
 

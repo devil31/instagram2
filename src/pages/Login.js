@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import '../Styles/Auth.css';
+
 import { signIn } from '../store/actions/Auth'
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
-
+import '../Styles/Auth.css';
 
 
 function Login() {

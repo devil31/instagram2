@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { getUserData } from "./Auth";
 export const CREATE_POST = 'CREATE_POST';
 export const CREATE_POSTSTART = 'CREATE_POSTSTART';
@@ -21,11 +20,11 @@ export const SAVE_POSTSUCCESS = 'SAVE_POSTSUCCESS';
 export const SAVE_POSTFAIL = 'SAVE_POSTFAIL';
 
 
-export const createPost = (txtArea, loc, username, loadImg, date,profileimg) => {
+export const createPost = (txtArea, loc, username, loadImg, date, profileimg) => {
 
     return async dispatch => {
         dispatch(createPostStart())
-       
+
 
         try {
 
@@ -51,32 +50,39 @@ export const createPost = (txtArea, loc, username, loadImg, date,profileimg) => 
 }
 
 export const fetchPost = () => {
+
     return async dispatch => {
-        const fetchData = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/post.json`)
-        const fetchDataList = [];
-        for (let key in fetchData.data) {
-            fetchDataList.push({
-                loadImg: fetchData.data[key].loadImg,
-                loc: fetchData.data[key].loc,
-                username: fetchData.data[key].username,
-                date: fetchData.data[key].date,
-                comments: fetchData.data[key].comments,
-                profileimg:fetchData.data[key].profileimg,
-                key,
-            })
+        try {
+            dispatch(fetchPostStart())
+            const fetchData = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/post.json`)
+            const fetchDataList = [];
+            for (let key in fetchData.data) {
+                fetchDataList.push({
+                    loadImg: fetchData.data[key].loadImg,
+                    loc: fetchData.data[key].loc,
+                    username: fetchData.data[key].username,
+                    date: fetchData.data[key].date,
+                    comments: fetchData.data[key].comments,
+                    profileimg: fetchData.data[key].profileimg,
+                    key,
+                })
+                dispatch(fetchPostSuccess(fetchDataList))
+
+            }
+
+
+        } catch (error) {
+
         }
-        dispatch({
-            type: FETCH_POST,
-            fetchDataPost: fetchDataList,
-        })
     }
+
 }
 
 
-export const postComment = (postId, username, inputComment, date,profileimg) => {
+export const postComment = (postId, username, inputComment, date, profileimg) => {
 
     return async dispatch => {
-        dispatch(commentPostStart())        
+        dispatch(commentPostStart())
         try {
             const commentResponce = await axios.post(`https://inst2-76a9c-default-rtdb.firebaseio.com/post/${postId}/comments.json`, {
                 username,
@@ -99,17 +105,12 @@ export const postComment = (postId, username, inputComment, date,profileimg) => 
 export const deletePost = (postId) => {
 
     return async dispatch => {
-       dispatch(deletePostStart())
+        dispatch(deletePostStart())
         try {
-                 const responce = await axios.delete(`https://inst2-76a9c-default-rtdb.firebaseio.com/post/${postId}.json`)
-              
-            const getData = await axios.get(`https://inst2-76a9c-default-rtdb.firebaseio.com/user.json`);
-            const Data = (Object.values(getData.data).map(x=>x.saved))
-             
-     
-     
-         await dispatch(deletePostSuccess(responce))
-          
+            const responce = await axios.delete(`https://inst2-76a9c-default-rtdb.firebaseio.com/post/${postId}.json`)
+
+            await dispatch(deletePostSuccess(responce))
+
             dispatch(fetchPost())
         } catch (error) {
             dispatch(deletePostFail(error))
@@ -134,7 +135,7 @@ export const savePost = (UserKey, postId, loadImg) => {
             }
             const idExist = checkList.map(i => i.postId).includes(postId)
             console.log(idExist)
-            const findKey = checkList.find(i => i.postId == postId)
+            const findKey = checkList.find(i => i.postId === postId)
             const key = findKey && findKey.key
 
             if (idExist) {
@@ -159,7 +160,26 @@ export const savePost = (UserKey, postId, loadImg) => {
     }
 }
 
+//fetchPost
 
+export const fetchPostStart = () => {
+    return {
+        type: FETCH_POSTSTART,
+    }
+}
+export const fetchPostSuccess = (data) => {
+    return {
+        type: FETCH_POSTSUCCESS,
+        fetchDataPost: data,
+    }
+
+}
+export const fetchPostFail = (error) => {
+    return {
+        type: FETCH_POSTFAIL,
+        errorCreatePost: error,
+    }
+}
 
 //create post
 
